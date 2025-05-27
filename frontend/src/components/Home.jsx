@@ -9,8 +9,8 @@ const Home = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        setLogoutSuccess(true); // Show logout success Snackbar
-        setTimeout(() => navigate('/login'), 1500); // Redirect to login after 1.5 seconds
+        setLogoutSuccess(true);
+        setTimeout(() => navigate('/login'), 1500);
     };
 
     return (
@@ -24,7 +24,6 @@ const Home = () => {
                 textAlign: 'center',
             }}
         >
-            {/* Animated Website Name */}
             <motion.div
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -35,7 +34,6 @@ const Home = () => {
                 </Typography>
             </motion.div>
 
-            {/* Animated Subtitle */}
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -46,7 +44,6 @@ const Home = () => {
                 </Typography>
             </motion.div>
 
-            {/* Animated Buttons */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -77,7 +74,6 @@ const Home = () => {
                 </Box>
             </motion.div>
 
-            {/* Snackbar for logout success */}
             <Snackbar
                 open={logoutSuccess}
                 autoHideDuration={3000}

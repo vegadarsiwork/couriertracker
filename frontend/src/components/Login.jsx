@@ -10,7 +10,7 @@ const Login = ({ setToken }) => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials),
@@ -23,7 +23,7 @@ const Login = ({ setToken }) => {
             localStorage.setItem('token', data.token);
             setError('');
             setSuccess(true);
-            setTimeout(() => navigate('/'), 1500); // Navigate to home after 1.5 seconds
+            setTimeout(() => navigate('/'), 1500);
         } catch (err) {
             setError(err.message);
         }
@@ -64,7 +64,6 @@ const Login = ({ setToken }) => {
                 Login
             </Button>
 
-            {/* Snackbar for success */}
             <Snackbar
                 open={success}
                 autoHideDuration={3000}
@@ -76,7 +75,6 @@ const Login = ({ setToken }) => {
                 </Alert>
             </Snackbar>
 
-            {/* Snackbar for error */}
             <Snackbar
                 open={!!error}
                 autoHideDuration={3000}

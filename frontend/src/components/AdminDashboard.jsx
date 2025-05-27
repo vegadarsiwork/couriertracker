@@ -5,13 +5,10 @@ import { motion } from 'framer-motion';
 
 const AdminDashboard = () => {
     const [trackingData, setTrackingData] = useState({ id: '', status: '', location: '' });
-    const [currentPackage, setCurrentPackage] = useState(null); // State for the current package
+    const [currentPackage, setCurrentPackage] = useState(null);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
-
-    // Fetch the current package details when the Tracking ID changes
-    
 
     const handleCreate = async () => {
         if (!trackingData.id || !trackingData.status || !trackingData.location) {
@@ -20,7 +17,7 @@ const AdminDashboard = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/track', {
+            const response = await fetch('/api/track', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +29,7 @@ const AdminDashboard = () => {
                 throw new Error('Error creating tracking entry.');
             }
             setSuccess('Created new tracking package successfully!');
-            setTrackingData({ id: '', status: '', location: '' }); // Reset form fields
+            setTrackingData({ id: '', status: '', location: '' });
         } catch (err) {
             setError(err.message);
         }
@@ -44,7 +41,6 @@ const AdminDashboard = () => {
             return;
         }
 
-        // Dynamically construct the update payload
         const updatePayload = {};
         if (trackingData.status) {
             updatePayload.status = trackingData.status;
@@ -93,7 +89,7 @@ const AdminDashboard = () => {
                 throw new Error('Error deleting tracking entry.');
             }
             setSuccess('Deleted tracking package successfully!');
-            setTrackingData({ id: '', status: '', location: '' }); // Reset form fields
+            setTrackingData({ id: '', status: '', location: '' });
         } catch (err) {
             setError(err.message);
         }
@@ -106,24 +102,12 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         const fetchPackageDetails = async () => {
-            if (!trackingData.id) {
-                setCurrentPackage(null);
-                return;
-            }
-
-            try {
-                const response = await fetch(`http://localhost:5000/api/track/${trackingData.id}`);
-                if (!response.ok) {
-                    throw new Error('Tracking Information not found.');
-                }
+            if (trackingData.id) {
+                const response = await fetch(`/api/track/${trackingData.id}`);
                 const data = await response.json();
                 setCurrentPackage(data);
-            } catch (err) {
-                setCurrentPackage(null);
-                setError(err.message);
             }
         };
-
         fetchPackageDetails();
     }, [trackingData.id, handleUpdate]);
 
@@ -173,7 +157,7 @@ const AdminDashboard = () => {
                     sx={{
                         maxWidth: '100%',
                         justifyContent: 'center',
-                        flexWrap: 'nowrap', // Prevent wrapping
+                        flexWrap: 'nowrap',
                     }}
                 >
                     <Grid item xs={12} sm={4}>
@@ -236,7 +220,6 @@ const AdminDashboard = () => {
                     </Button>
                 </Box>
 
-                {/* Current Package Details */}
                 {currentPackage && (
                     <Card
                         sx={{
@@ -246,7 +229,6 @@ const AdminDashboard = () => {
                             position: 'relative',
                         }}
                     >
-                        {/* Color bar to indicate status */}
                         <Box
                             sx={{
                                 width: 10,
@@ -273,7 +255,6 @@ const AdminDashboard = () => {
                     </Card>
                 )}
 
-                {/* Snackbar for success */}
                 <Snackbar
                     open={!!success}
                     autoHideDuration={3000}
@@ -285,7 +266,6 @@ const AdminDashboard = () => {
                     </Alert>
                 </Snackbar>
 
-                {/* Snackbar for error */}
                 <Snackbar
                     open={!!error}
                     autoHideDuration={3000}

@@ -11,14 +11,14 @@ const Tracking = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/track/${trackingId}`);
+            const response = await fetch(`/api/track/${trackingId}`);
             if (!response.ok) {
                 throw new Error('Tracking Information not found.');
             }
             const data = await response.json();
             setTrackingInfo(data);
             setError('');
-            setSuccess(true); // Show success Snackbar
+            setSuccess(true);
         } catch (err) {
             setError(err.message);
             setTrackingInfo(null);
@@ -63,7 +63,6 @@ const Tracking = () => {
                         position: 'relative',
                     }}
                 >
-                    {/* Color bar to indicate status */}
                     <Box
                         sx={{
                             width: 10,
@@ -90,7 +89,6 @@ const Tracking = () => {
                 </Card>
             )}
 
-            {/* Snackbar for success */}
             <Snackbar
                 open={success}
                 autoHideDuration={3000}
@@ -102,7 +100,6 @@ const Tracking = () => {
                 </Alert>
             </Snackbar>
 
-            {/* Snackbar for error */}
             <Snackbar
                 open={!!error}
                 autoHideDuration={3000}
